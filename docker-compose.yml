@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Aplicación Node.js
+  app-nodejs:
+    
+    
+    image: ${REGISTRY_IP}:5000/app-nodejs:latest
+    ports:
+      - "8081:3000" 
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Aplicación Spring Boot
+  app-springboot:
+    
+    
+    image: ${REGISTRY_IP}:5000/app-springboot:latest
+    ports:
+      - "8080:8080" 
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

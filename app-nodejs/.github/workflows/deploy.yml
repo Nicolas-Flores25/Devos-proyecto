@@ -1,0 +1,24 @@
+name: CD Deploy Node.js
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    name: Deploy Node.js to ${{ github.ref_name == 'main' && 'Production' || 'Development' }}
+    runs-on: [self-hosted, "${{ github.ref_name == 'main' && 'prod' || 'dev' }}"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy with Docker Compose
+        run: |
+          echo "Haciendo pull de la última imagen desde el Registry local..."
+          /usr/bin/docker compose pull
+          
+          echo "Levantando servicios..."
+          /usr/bin/docker compose up -d
